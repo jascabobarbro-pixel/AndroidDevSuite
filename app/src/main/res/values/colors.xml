@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary">#FF6B6B</color>
+    <color name="primary_variant">#E55555</color>
+    <color name="on_primary">#FFFFFF</color>
+    
+    <!-- Secondary Colors -->
+    <color name="secondary">#4ECDC4</color>
+    <color name="secondary_variant">#3DBDB5</color>
+    <color name="on_secondary">#FFFFFF</color>
+    
+    <!-- Tertiary Colors -->
+    <color name="tertiary">#FFE66D</color>
+    <color name="on_tertiary">#1A1A1A</color>
+    
+    <!-- Background Colors -->
+    <color name="background">#0D1117</color>
+    <color name="surface">#161B22</color>
+    <color name="surface_variant">#21262D</color>
+    <color name="on_background">#C9D1D9</color>
+    <color name="on_surface">#C9D1D9</color>
+    <color name="on_surface_variant">#8B949E</color>
+    
+    <!-- Status Colors -->
+    <color name="success">#3FB950</color>
+    <color name="warning">#D29922</color>
+    <color name="error">#F85149</color>
+    <color name="info">#58A6FF</color>
+    
+    <!-- Code Editor Colors -->
+    <color name="code_background">#0D1117</color>
+    <color name="code_keyword">#FF7B72</color>
+    <color name="code_string">#A5D6FF</color>
+    <color name="code_comment">#8B949E</color>
+    <color name="code_number">#79C0FF</color>
+    <color name="code_function">#D2A8FF</color>
+    <color name="code_class">#7EE787</color>
+    <color name="code_variable">#FFA657</color>
+    
+    <!-- Terminal Colors -->
+    <color name="terminal_background">#0D1117</color>
+    <color name="terminal_foreground">#C9D1D9</color>
+    <color name="terminal_cursor">#58A6FF</color>
+    
+    <!-- Block Editor Colors -->
+    <color name="block_event">#FF6B6B</color>
+    <color name="block_control">#4ECDC4</color>
+    <color name="block_operation">#FFE66D</color>
+    <color name="block_variable">#A78BFA</color>
+    <color name="block_function">#F472B6</color>
+    <color name="block_component">#60A5FA</color>
+    <color name="block_logic">#34D399</color>
+</resources>
