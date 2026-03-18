@@ -6,20 +6,11 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-    inputs:
-      build_type:
-        description: 'Build type'
-        required: true
-        default: 'debug'
-        type: choice
-        options:
-          - debug
-          - release
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     
     steps:
     - name: Checkout code
@@ -37,43 +28,49 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
+    - name: Accept Android SDK licenses
+      run: |
+        yes | sdkmanager --licenses || true
+        sdkmanager "platforms;android-35" "build-tools;35.0.0" || true
+      
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
         
     - name: Validate Gradle wrapper
       uses: gradle/actions/wrapper-validation@v4
         
-    - name: Build Debug APK
-      if: github.event.inputs.build_type != 'release'
-      run: ./gradlew assembleDebug --stacktrace
+    - name: Build Debug APK with all dependencies
+      run: |
+        echo "Building AndroidDevSuite..."
+        ./gradlew clean
+        ./gradlew assembleDebug --stacktrace --info
+        ls -la app/build/outputs/apk/debug/ || echo "APK output not found"
         
-    - name: Build Release APK
-      if: github.event.inputs.build_type == 'release'
-      run: ./gradlew assembleRelease --stacktrace
+    - name: Check APK size
+      run: |
+        APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
+        if [ -f "$APK_PATH" ]; then
+          SIZE=$(stat -c%s "$APK_PATH")
+          echo "APK Size: $SIZE bytes ($(echo "scale=2; $SIZE/1024/1024" | bc) MB)"
+          if [ $SIZE -lt 1000000 ]; then
+            echo "WARNING: APK size is less than 1MB, there might be an issue"
+          fi
+        else
+          echo "APK not found at $APK_PATH"
+          find app/build -name "*.apk" 2>/dev/null || echo "No APK files found"
+        fi
       
     - name: Run Unit Tests
       run: ./gradlew test || true
       continue-on-error: true
       
-    - name: Generate Documentation
-      run: ./gradlew dokkaHtml || true
-      continue-on-error: true
-      
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
-      if: github.event.inputs.build_type != 'release'
       with:
-        name: app-debug-${{ github.sha }}
+        name: app-debug
         path: app/build/outputs/apk/debug/*.apk
         retention-days: 30
-        
-    - name: Upload Release APK
-      uses: actions/upload-artifact@v4
-      if: github.event.inputs.build_type == 'release'
-      with:
-        name: app-release-${{ github.sha }}
-        path: app/build/outputs/apk/release/*.apk
-        retention-days: 30
+        if-no-files-found: error
 
   release:
     needs: build
@@ -84,39 +81,34 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Download Debug APK
+    - name: Download APK artifact
       uses: actions/download-artifact@v4
       with:
-        name: app-debug-${{ github.sha }}
+        name: app-debug
         path: apk/
-      continue-on-error: true
       
     - name: Get version info
       id: version
       run: |
-        VERSION=$(grep "versionName" app/build.gradle.kts | head -1 | sed 's/.*"\(.*\)".*/\1/' || echo "1.0.0")
-        VERSION_CODE=$(grep "versionCode" app/build.gradle.kts | head -1 | sed 's/[^0-9]//g' || echo "1")
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-        echo "date=$(date +'%Y%m%d%H%M')" >> $GITHUB_OUTPUT
-      continue-on-error: true
-      
-    - name: Create Release APK Placeholder
-      run: |
-        mkdir -p apk
-        if [ ! -f "apk/app-debug.apk" ]; then
-          echo "Creating placeholder APK..."
-          echo "Android Dev Suite - Debug Build" > apk/app-debug.apk
-          echo "Version: ${{ steps.version.outputs.version }}" >> apk/app-debug.apk
-          echo "Build: ${{ github.sha }}" >> apk/app-debug.apk
-          echo "Date: $(date)" >> apk/app-debug.apk
-        fi
+        VERSION=$(grep "versionName" app/build.gradle.kts | head -1 | sed 's/.*"\(.*\)".*/\1/' || echo "2.0.0")
+        VERSION_CODE=$(grep "versionCode" app/build.gradle.kts | head -1 | sed 's/[^0-9]//g' || echo "2")
+        BUILD_DATE=$(date +'%Y%m%d')
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "version_code=${VERSION_CODE}" >> $GITHUB_OUTPUT
+        echo "build_date=${BUILD_DATE}" >> $GITHUB_OUTPUT
         
-    - name: Create/Update Release
+    - name: List APK files
+      run: |
+        echo "APK files:"
+        ls -la apk/
+        echo "File sizes:"
+        du -h apk/*
+        
+    - name: Create Release with APK
       uses: softprops/action-gh-release@v1
       with:
-        tag_name: v${{ steps.version.outputs.version || '1.0.0' }}
-        name: 🚀 Android Development Suite v${{ steps.version.outputs.version || '1.0.0' }}
+        tag_name: v${{ steps.version.outputs.version }}
+        name: 🚀 Android Development Suite v${{ steps.version.outputs.version }}
         body: |
           # 🚀 Android Development Suite
           
@@ -125,57 +117,41 @@ jobs:
           
           ## ✨ الميزات
           - 🎨 Visual UI Editor
-          - 🧩 Block-based Programming
-          - 💻 Advanced Code Editor
-          - 📦 APK Editor
-          - 🖥️ Terminal Emulator
-          - 🤖 Ollama AI Assistant
+          - 🧩 Block-based Programming (Sketchware-like)
+          - 💻 Advanced Code Editor with syntax highlighting
+          - 📦 APK Editor (MT Manager-like)
+          - 🖥️ Terminal Emulator (Termux-like)
+          - 🤖 **Ollama AI Assistant** - Local LLM support
           - 🔄 Git Integration
           - 📁 File Manager
+          - 🏗️ Project Templates
           
-          ## 🛠️ التقنيات
+          ## 🛠️ التقنيات المستخدمة
           | التقنية | الإصدار |
           |---------|---------|
           | Kotlin | 2.0.21 |
-          | Compose | Latest |
+          | Jetpack Compose | Latest |
           | Material Design | 3 |
-          | Ollama | Local LLM |
+          | Hilt DI | 2.52 |
+          | Room Database | 2.6.1 |
+          | Ollama API | Local LLM |
           
           ## 📱 المتطلبات
           - **Min SDK:** Android 8.0 (API 26)
           - **Target SDK:** Android 15 (API 35)
           
+          ## 🤖 إعداد Ollama
+          1. قم بتثبيت Ollama: `curl -fsSL https://ollama.com/install.sh | sh`
+          2. شغّل الخادم: `ollama serve`
+          3. حمّل نموذج: `ollama pull codellama:7b`
+          
           ---
           
-          **Build:** `${{ github.sha }}`
-          **Date:** ${{ github.event.head_commit.timestamp }}
+          **Build Date:** ${{ steps.version.outputs.build_date }}
+          **Commit:** `${{ github.sha }}`
           
         files: apk/*.apk
         draft: false
         prerelease: false
-        fail_on_unmatched_files: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  ollama-test:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
-    
-    steps:
-    - name: Install Ollama
-      run: |
-        curl -fsSL https://ollama.com/install.sh | sh
-        ollama serve &
-        sleep 5
-        
-    - name: Pull Code Model
-      run: |
-        ollama pull codellama:7b || ollama pull llama2:7b
-        
-    - name: Test Ollama
-      run: |
-        curl http://localhost:11434/api/generate -d '{
-          "model": "codellama:7b",
-          "prompt": "Write a Kotlin function to add two numbers",
-          "stream": false
-        }'

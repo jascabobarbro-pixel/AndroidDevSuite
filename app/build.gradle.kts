@@ -10,7 +10,7 @@
  * - Material Design 3
  * - Hilt Dependency Injection
  * - Room Database
- * - TensorFlow Lite for AI
+ * - Ollama Local LLM for AI
  * - OkHttp + Retrofit for Networking
  * - Coroutines & Flow
  * - Navigation Component

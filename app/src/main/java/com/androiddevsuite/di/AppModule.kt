@@ -21,7 +21,6 @@ import com.androiddevsuite.data.local.TerminalHistoryDao
 import com.androiddevsuite.data.local.WorkspaceBlockDao
 import com.androiddevsuite.data.local.FileBookmarkDao
 import com.androiddevsuite.data.local.RecentFileDao
-import com.androiddevsuite.data.local.ProjectRepository
 import com.androiddevsuite.data.preferences.PreferencesRepository
 import com.androiddevsuite.git.GitManager
 import com.androiddevsuite.sandbox.SandboxManager
@@ -155,9 +154,6 @@ object AppModule {
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    
-    // GitHub API client would be configured here
-    // OkHttpClient, Retrofit instances
     
     @Singleton
     @Provides
