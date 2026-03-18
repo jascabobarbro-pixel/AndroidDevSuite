@@ -26,6 +26,7 @@ import com.androiddevsuite.sandbox.SandboxManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,14 +49,16 @@ object AppModule {
     @Singleton
     @Provides
     fun providePreferencesRepository(
-        context: Context
+        @ApplicationContext context: Context
     ): PreferencesRepository {
         return PreferencesRepository(context)
     }
     
     @Singleton
     @Provides
-    fun provideAppDatabase(context: Context): AppDatabase {
+    fun provideAppDatabase(
+        @ApplicationContext context: Context
+    ): AppDatabase {
         return AppDatabase.getInstance(context)
     }
     
@@ -97,14 +100,16 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideOllamaAIManager(context: Context): OllamaAIManager {
+    fun provideOllamaAIManager(
+        @ApplicationContext context: Context
+    ): OllamaAIManager {
         return OllamaAIManager(context)
     }
     
     @Singleton
     @Provides
     fun provideAIManager(
-        context: Context,
+        @ApplicationContext context: Context,
         ollamaManager: OllamaAIManager
     ): AIManager {
         return AIManager(context, ollamaManager)
@@ -112,14 +117,16 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideGitManager(context: Context): GitManager {
+    fun provideGitManager(
+        @ApplicationContext context: Context
+    ): GitManager {
         return GitManager(context)
     }
     
     @Singleton
     @Provides
     fun provideBuildManager(
-        context: Context,
+        @ApplicationContext context: Context,
         projectDao: ProjectDao
     ): BuildManager {
         return BuildManager(context, projectDao)
@@ -127,7 +134,9 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideSandboxManager(context: Context): SandboxManager {
+    fun provideSandboxManager(
+        @ApplicationContext context: Context
+    ): SandboxManager {
         return SandboxManager(context)
     }
 }
