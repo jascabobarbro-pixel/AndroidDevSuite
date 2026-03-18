@@ -16,18 +16,12 @@ import com.androiddevsuite.ai.OllamaAIManager
 import com.androiddevsuite.build.BuildManager
 import com.androiddevsuite.data.local.AppDatabase
 import com.androiddevsuite.data.local.ProjectDao
-import com.androiddevsuite.data.local.BuildHistoryDao
-import com.androiddevsuite.data.local.TerminalHistoryDao
-import com.androiddevsuite.data.local.WorkspaceBlockDao
-import com.androiddevsuite.data.local.FileBookmarkDao
-import com.androiddevsuite.data.local.RecentFileDao
 import com.androiddevsuite.data.preferences.PreferencesRepository
 import com.androiddevsuite.git.GitManager
 import com.androiddevsuite.sandbox.SandboxManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +44,7 @@ object AppModule {
     @Singleton
     @Provides
     fun providePreferencesRepository(
-        @ApplicationContext context: Context
+        context: Context
     ): PreferencesRepository {
         return PreferencesRepository(context)
     }
@@ -58,15 +52,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideAppDatabase(
-        @ApplicationContext context: Context
+        context: Context
     ): AppDatabase {
-        return Room.databaseBuilder(
-            context.applicationContext,
-            AppDatabase::class.java,
-            "android_dev_suite.db"
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+        return AppDatabase.getInstance(context)
     }
     
     @Singleton
@@ -77,38 +65,8 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideBuildHistoryDao(database: AppDatabase): BuildHistoryDao {
-        return database.buildHistoryDao()
-    }
-    
-    @Singleton
-    @Provides
-    fun provideTerminalHistoryDao(database: AppDatabase): TerminalHistoryDao {
-        return database.terminalHistoryDao()
-    }
-    
-    @Singleton
-    @Provides
-    fun provideWorkspaceBlockDao(database: AppDatabase): WorkspaceBlockDao {
-        return database.workspaceBlockDao()
-    }
-    
-    @Singleton
-    @Provides
-    fun provideFileBookmarkDao(database: AppDatabase): FileBookmarkDao {
-        return database.fileBookmarkDao()
-    }
-    
-    @Singleton
-    @Provides
-    fun provideRecentFileDao(database: AppDatabase): RecentFileDao {
-        return database.recentFileDao()
-    }
-    
-    @Singleton
-    @Provides
     fun provideOllamaAIManager(
-        @ApplicationContext context: Context
+        context: Context
     ): OllamaAIManager {
         return OllamaAIManager(context)
     }
@@ -116,7 +74,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideAIManager(
-        @ApplicationContext context: Context,
+        context: Context,
         ollamaManager: OllamaAIManager
     ): AIManager {
         return AIManager(context, ollamaManager)
@@ -125,7 +83,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideGitManager(
-        @ApplicationContext context: Context
+        context: Context
     ): GitManager {
         return GitManager(context)
     }
@@ -133,7 +91,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideBuildManager(
-        @ApplicationContext context: Context,
+        context: Context,
         projectDao: ProjectDao
     ): BuildManager {
         return BuildManager(context, projectDao)
@@ -142,7 +100,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideSandboxManager(
-        @ApplicationContext context: Context
+        context: Context
     ): SandboxManager {
         return SandboxManager(context)
     }
