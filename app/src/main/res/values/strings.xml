@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Info -->
+    <string name="app_name">Android Dev Suite</string>
+    <string name="app_description">منصة تطوير أندرويد الشاملة</string>
+    <string name="version">الإصدار 1.0.0</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_projects">المشاريع</string>
+    <string name="nav_terminal">الطرفية</string>
+    <string name="nav_blocks">محرر البلوكات</string>
+    <string name="nav_code">محرر الكود</string>
+    <string name="nav_apk">محرر APK</string>
+    <string name="nav_settings">الإعدادات</string>
+    <string name="nav_tools">الأدوات</string>
+    
+    <!-- Tools -->
+    <string name="tool_visual_editor">المحرر المرئي</string>
+    <string name="tool_visual_editor_desc">تصميم واجهات بالسحب والإفلات</string>
+    <string name="tool_block_editor">محرر البلوكات</string>
+    <string name="tool_block_editor_desc">برمجة بدون كود بالبلوكات</string>
+    <string name="tool_code_editor">محرر الكود</string>
+    <string name="tool_code_editor_desc">كتابة كود Kotlin/Java متقدم</string>
+    <string name="tool_apk_editor">محرر APK</string>
+    <string name="tool_apk_editor_desc">تعديل ملفات APK و DEX</string>
+    <string name="tool_terminal">الطرفية</string>
+    <string name="tool_terminal_desc">بيئة لينكس مدمجة</string>
+    <string name="tool_file_manager">مدير الملفات</string>
+    <string name="tool_file_manager_desc">إدارة ملفات المشروع</string>
+    <string name="tool_ai_assistant">مساعد الذكاء الاصطناعي</string>
+    <string name="tool_ai_assistant_desc">اقتراحات ذلية للكود</string>
+    
+    <!-- Actions -->
+    <string name="action_build">بناء</string>
+    <string name="action_run">تشغيل</string>
+    <string name="action_debug">تصحيح</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_export">تصدير</string>
+    <string name="action_import">استيراد</string>
+    <string name="action_new">جديد</string>
+    <string name="action_open">فتح</string>
+    <string name="action_close">إغلاق</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_rename">إعادة تسمية</string>
+    <string name="action_copy">نسخ</string>
+    <string name="action_paste">لصق</string>
+    <string name="action_undo">تراجع</string>
+    <string name="action_redo">إعادة</string>
+    <string name="action_find">بحث</string>
+    <string name="action_replace">استبدال</string>
+    <string name="action_settings">الإعدادات</string>
+    
+    <!-- Project -->
+    <string name="project_new">مشروع جديد</string>
+    <string name="project_name">اسم المشروع</string>
+    <string name="project_package">اسم الحزمة</string>
+    <string name="project_min_sdk">الحد الأدنى للإصدار</string>
+    <string name="project_target_sdk">الإصدار المستهدف</string>
+    <string name="project_template">قالب المشروع</string>
+    
+    <!-- Build -->
+    <string name="build_progress">جاري البناء…</string>
+    <string name="build_success">تم البناء بنجاح</string>
+    <string name="build_failed">فشل البناء</string>
+    <string name="build_install">تثبيت</string>
+    <string name="build_share">مشاركة</string>
+    
+    <!-- Permissions -->
+    <string name="permission_storage_title">صلاحيات التخزين</string>
+    <string name="permission_storage_desc">يحتاج التطبيق لصلاحيات التخزين للوصول لمشاريعك وملفات APK</string>
+    <string name="permission_manage_storage">منح صلاحية إدارة جميع الملفات</string>
+    
+    <!-- Settings -->
+    <string name="settings">الإعدادات</string>
+    <string name="settings_appearance">المظهر</string>
+    <string name="settings_theme">السمة</string>
+    <string name="settings_theme_light">فاتح</string>
+    <string name="settings_theme_dark">داكن</string>
+    <string name="settings_theme_system">تلقائي</string>
+    <string name="settings_editor">المحرر</string>
+    <string name="settings_font_size">حجم الخط</string>
+    <string name="settings_tab_size">حجم التبويب</string>
+    <string name="settings_auto_save">الحفظ التلقائي</string>
+    <string name="settings_build">البناء</string>
+    <string name="settings_build_output">مجلد المخرجات</string>
+    <string name="settings_signing">توقيع APK</string>
+    <string name="settings_ai">الذكاء الاصطناعي</string>
+    <string name="settings_ai_enabled">تفعيل المساعد الذكي</string>
+    <string name="settings_ai_offline">العمل بدون إنترنت</string>
+    
+    <!-- Errors -->
+    <string name="error_generic">حدث خطأ غير متوقع</string>
+    <string name="error_file_not_found">الملف غير موجود</string>
+    <string name="error_permission_denied">صلاحية مرفوضة</string>
+    <string name="error_build_failed">فشل عملية البناء</string>
+    <string name="error_invalid_apk">ملف APK غير صالح</string>
+    
+    <!-- Dialogs -->
+    <string name="dialog_confirm">تأكيد</string>
+    <string name="dialog_cancel">إلغاء</string>
+    <string name="dialog_ok">موافق</string>
+    <string name="dialog_yes">نعم</string>
+    <string name="dialog_no">لا</string>
+    <string name="dialog_delete_title">حذف</string>
+    <string name="dialog_delete_message">هل أنت متأكد من حذف هذا العنصر؟</string>
+    
+    <!-- Notifications -->
+    <string name="notification_build_channel">حالة البناء</string>
+    <string name="notification_build_title">بناء المشروع</string>
+    <string name="notification_build_complete">اكتمل البناء</string>
+</resources>

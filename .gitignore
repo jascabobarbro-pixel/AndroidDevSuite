@@ -1,0 +1,80 @@
+# Android Development Suite
+# منصة تطوير أندرويد الشاملة
+
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Kotlin
+*.class
+*.jar
+*.kt.swp
+
+# Android
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+
+# NDK
+obj/
+jniLibs/
+
+# Gradle
+.gradle/
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+*.swp
+*.swo
+
+# Keystore
+*.jks
+*.keystore
+keystore.properties
+
+# Secrets
+secrets.properties
+api_keys.properties
+*.pem
+*.key
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*~
+
+# Test
+coverage/
+*.exec
+
+# Generated
+generated/
+download/
