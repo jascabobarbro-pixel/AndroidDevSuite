@@ -10,12 +10,16 @@
 package com.androiddevsuite.di
 
 import android.content.Context
-import androidx.room.Room
 import com.androiddevsuite.ai.AIManager
 import com.androiddevsuite.ai.OllamaAIManager
 import com.androiddevsuite.build.BuildManager
 import com.androiddevsuite.data.local.AppDatabase
 import com.androiddevsuite.data.local.ProjectDao
+import com.androiddevsuite.data.local.BuildHistoryDao
+import com.androiddevsuite.data.local.TerminalHistoryDao
+import com.androiddevsuite.data.local.WorkspaceBlockDao
+import com.androiddevsuite.data.local.FileBookmarkDao
+import com.androiddevsuite.data.local.RecentFileDao
 import com.androiddevsuite.data.preferences.PreferencesRepository
 import com.androiddevsuite.git.GitManager
 import com.androiddevsuite.sandbox.SandboxManager
@@ -51,9 +55,7 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideAppDatabase(
-        context: Context
-    ): AppDatabase {
+    fun provideAppDatabase(context: Context): AppDatabase {
         return AppDatabase.getInstance(context)
     }
     
@@ -65,9 +67,37 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideOllamaAIManager(
-        context: Context
-    ): OllamaAIManager {
+    fun provideBuildHistoryDao(database: AppDatabase): BuildHistoryDao {
+        return database.buildHistoryDao()
+    }
+    
+    @Singleton
+    @Provides
+    fun provideTerminalHistoryDao(database: AppDatabase): TerminalHistoryDao {
+        return database.terminalHistoryDao()
+    }
+    
+    @Singleton
+    @Provides
+    fun provideWorkspaceBlockDao(database: AppDatabase): WorkspaceBlockDao {
+        return database.workspaceBlockDao()
+    }
+    
+    @Singleton
+    @Provides
+    fun provideFileBookmarkDao(database: AppDatabase): FileBookmarkDao {
+        return database.fileBookmarkDao()
+    }
+    
+    @Singleton
+    @Provides
+    fun provideRecentFileDao(database: AppDatabase): RecentFileDao {
+        return database.recentFileDao()
+    }
+    
+    @Singleton
+    @Provides
+    fun provideOllamaAIManager(context: Context): OllamaAIManager {
         return OllamaAIManager(context)
     }
     
@@ -82,9 +112,7 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideGitManager(
-        context: Context
-    ): GitManager {
+    fun provideGitManager(context: Context): GitManager {
         return GitManager(context)
     }
     
@@ -99,9 +127,7 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun provideSandboxManager(
-        context: Context
-    ): SandboxManager {
+    fun provideSandboxManager(context: Context): SandboxManager {
         return SandboxManager(context)
     }
 }
